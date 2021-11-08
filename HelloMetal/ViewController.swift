@@ -35,9 +35,19 @@ class ViewController: UIViewController {
   var timer: CADisplayLink!
   var projectionMatrix: Matrix4!
   var lastFrameTimestamp: CFTimeInterval = 0.0
+    
+  let recognizer = UILongPressGestureRecognizer()
+        
   
   override func viewDidLoad() {
     super.viewDidLoad()
+//    recognizer.addTarget(self, action: #selector(handlePan(_:)))
+//    view.addGestureRecognizer(recognizer)
+    let myRotate = UIPanGestureRecognizer(target: self, action: #selector(rotateObject))
+//    mySwape.direction = .left
+    view.addGestureRecognizer(myRotate)
+    
+    
     // Do any additional setup after loading the view, typically from a nib.
     device = MTLCreateSystemDefaultDevice()
     projectionMatrix = Matrix4.makePerspectiveViewAngle(Matrix4.degrees(toRad: 85.0), aspectRatio: Float(self.view.bounds.size.width / self.view.bounds.size.height), nearZ: 0.01, farZ: 100.0)
@@ -114,7 +124,27 @@ class ViewController: UIViewController {
     autoreleasepool {
       self.render()
     }
+    
+    
   }
-
+    
+    @objc func swapeHandler(_ gestureRecognizer: UISwipeGestureRecognizer) {
+                
+            }
+//    override func scrollWheel(with event: UIEvent) {
+//      print("scrollWheel: ", Float(event.deltaY))
+//    }
+    
+    @objc func rotateObject(recognaizer: UIPanGestureRecognizer) {
+//        let translation = gesture.
+//                print("handlePan x: ", Float(translation))
+//            }
+        if recognaizer.state == .changed {
+            let translation = recognaizer.translation(in: self.view)
+            print("rotateObject x: ", Float(translation.x), "  rotateObject y: ", Float(translation.y))
+        }
+    }
 }
+
+
 

@@ -23,28 +23,29 @@
 import UIKit
 import Metal
 
+@available(iOS 13.0, *)
 class ViewController: UIViewController {
 
-  var objectToDraw: Cube!
-  var objectToDraw2: Triangle!
-  
-  var device: MTLDevice!
-  var metalLayer: CAMetalLayer!
-  var pipelineState: MTLRenderPipelineState!
-  var commandQueue: MTLCommandQueue!
-  var timer: CADisplayLink!
-  var projectionMatrix: Matrix4!
-  var lastFrameTimestamp: CFTimeInterval = 0.0
-    
-  let recognizer = UILongPressGestureRecognizer()
-        
-  
-  override func viewDidLoad() {
+    var objectToDraw: Cube!
+    var objectToDraw2: Triangle!
+
+    var device: MTLDevice!
+    var metalLayer: CAMetalLayer!
+    var pipelineState: MTLRenderPipelineState!
+    var commandQueue: MTLCommandQueue!
+    var timer: CADisplayLink!
+    var projectionMatrix: Matrix4!
+    var lastFrameTimestamp: CFTimeInterval = 0.0
+
+    let recognizer = UILongPressGestureRecognizer()
+    var coordX: Int = 0
+    var coordY: Int = 0
+            
+      
+    override func viewDidLoad() {
     super.viewDidLoad()
-//    recognizer.addTarget(self, action: #selector(handlePan(_:)))
-//    view.addGestureRecognizer(recognizer)
+
     let myRotate = UIPanGestureRecognizer(target: self, action: #selector(rotateObject))
-//    mySwape.direction = .left
     view.addGestureRecognizer(myRotate)
     
     
@@ -81,30 +82,24 @@ class ViewController: UIViewController {
     
     timer = CADisplayLink(target: self, selector: #selector(ViewController.newFrame(displayLink:)))
     timer.add(to: RunLoop.main, forMode: RunLoop.Mode.default)
-  }
+    }
   
 
-    var count: Int = 0
-  func render() {
+    func render() {
     guard let drawable = metalLayer?.nextDrawable() else { return }
     let worldModelMatrix = Matrix4()
     worldModelMatrix.translate(0.0, y: 0.0, z: -7.0)
     worldModelMatrix.rotateAroundX(Matrix4.degrees(toRad: 25), y: 0.0, z: 0.0)
      
-//    if ( (self.i)%2 == 0) {
-        objectToDraw.render(commandQueue: commandQueue, pipelineState: pipelineState, drawable: drawable, parentModelViewMatrix: worldModelMatrix, projectionMatrix: projectionMatrix ,clearColor: nil)
-//    } else {
-//        objectToDraw2.render(commandQueue: commandQueue, pipelineState: pipelineState, drawable: drawable, parentModelViewMatrix: worldModelMatrix, projectionMatrix: projectionMatrix ,clearColor: nil)
-//    }
-//    self.i += 1
+    objectToDraw.render(commandQueue: commandQueue, pipelineState: pipelineState, drawable: drawable, parentModelViewMatrix: worldModelMatrix, projectionMatrix: projectionMatrix ,clearColor: nil)
   }
   
-  // 1
-  @objc func newFrame(displayLink: CADisplayLink){
+    // 1
+    @objc func newFrame(displayLink: CADisplayLink){
     
     if lastFrameTimestamp == 0.0
     {
-      lastFrameTimestamp = displayLink.timestamp
+        lastFrameTimestamp = displayLink.timestamp
     }
     
     // 2
@@ -113,34 +108,25 @@ class ViewController: UIViewController {
     
     // 3
     gameloop(timeSinceLastUpdate: elapsed)
-  }
+    }
   
-  func gameloop(timeSinceLastUpdate: CFTimeInterval) {
+    func gameloop(timeSinceLastUpdate: CFTimeInterval) {
     
     // 4
-    objectToDraw.updateWithDelta(delta: timeSinceLastUpdate)
+        objectToDraw.updateWithDelta(delta: timeSinceLastUpdate, coordX: self.coordX, coordY: self.coordY)
     
     // 5
     autoreleasepool {
       self.render()
     }
-    
-    
   }
     
-    @objc func swapeHandler(_ gestureRecognizer: UISwipeGestureRecognizer) {
-                
-            }
-//    override func scrollWheel(with event: UIEvent) {
-//      print("scrollWheel: ", Float(event.deltaY))
-//    }
     
     @objc func rotateObject(recognaizer: UIPanGestureRecognizer) {
-//        let translation = gesture.
-//                print("handlePan x: ", Float(translation))
-//            }
         if recognaizer.state == .changed {
             let translation = recognaizer.translation(in: self.view)
+            coordX = Int(translation.x)
+            coordY = Int(translation.y)
             print("rotateObject x: ", Float(translation.x), "  rotateObject y: ", Float(translation.y))
         }
     }

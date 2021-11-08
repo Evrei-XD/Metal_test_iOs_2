@@ -8,20 +8,22 @@ import MetalKit
 //}
 
 class Node {
-  let device: MTLDevice
-  let name: String
-  var vertexCount: Int
-  var vertexBuffer: MTLBuffer
-  var time:CFTimeInterval = 0.0
-  
-  var positionX: Float = 0.0
-  var positionY: Float = 0.0
-  var positionZ: Float = 0.0
-  
-  var rotationX: Float = 0.0
-  var rotationY: Float = 0.0
-  var rotationZ: Float = 0.0
-  var scale: Float     = 1.0
+    let device: MTLDevice
+    let name: String
+    var vertexCount: Int
+    var vertexBuffer: MTLBuffer
+    var time:CFTimeInterval = 0.0
+    var coordinateX: Int = 0
+    var coordinateY: Int = 0
+
+    var positionX: Float = 0.0
+    var positionY: Float = 0.0
+    var positionZ: Float = 0.0
+
+    var rotationX: Float = 0.0
+    var rotationY: Float = 0.0
+    var rotationZ: Float = 0.0
+    var scale: Float     = 1.0
   
   init(name: String, vertices: Array<Vertex>, device: MTLDevice){
     // 1
@@ -85,8 +87,10 @@ class Node {
     return matrix
   }
   
-  func updateWithDelta(delta: CFTimeInterval){
-    time += delta
+    func updateWithDelta(delta: CFTimeInterval, coordX: Int, coordY: Int){
+        time += delta
+        coordinateX += coordX
+        coordinateY += coordY
   }
   
 }

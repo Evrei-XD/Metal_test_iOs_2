@@ -26,6 +26,7 @@ import Metal
 class ViewController: UIViewController {
 
   var objectToDraw: Cube!
+  var objectToDraw2: Triangle!
   
   var device: MTLDevice!
   var metalLayer: CAMetalLayer!
@@ -38,9 +39,7 @@ class ViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     // Do any additional setup after loading the view, typically from a nib.
-    
     device = MTLCreateSystemDefaultDevice()
-    
     projectionMatrix = Matrix4.makePerspectiveViewAngle(Matrix4.degrees(toRad: 85.0), aspectRatio: Float(self.view.bounds.size.width / self.view.bounds.size.height), nearZ: 0.01, farZ: 100.0)
     
     metalLayer = CAMetalLayer()          // 1
@@ -50,7 +49,9 @@ class ViewController: UIViewController {
     metalLayer.frame = view.layer.frame  // 5
     view.layer.addSublayer(metalLayer)   // 6
     
+    
     objectToDraw = Cube(device: device)
+    objectToDraw2 = Triangle(device: device)
     
     // 1
     let defaultLibrary = device.makeDefaultLibrary()!
@@ -72,13 +73,20 @@ class ViewController: UIViewController {
     timer.add(to: RunLoop.main, forMode: RunLoop.Mode.default)
   }
   
+
+    var count: Int = 0
   func render() {
     guard let drawable = metalLayer?.nextDrawable() else { return }
     let worldModelMatrix = Matrix4()
     worldModelMatrix.translate(0.0, y: 0.0, z: -7.0)
     worldModelMatrix.rotateAroundX(Matrix4.degrees(toRad: 25), y: 0.0, z: 0.0)
-    
-    objectToDraw.render(commandQueue: commandQueue, pipelineState: pipelineState, drawable: drawable, parentModelViewMatrix: worldModelMatrix, projectionMatrix: projectionMatrix ,clearColor: nil)
+     
+//    if ( (self.i)%2 == 0) {
+        objectToDraw.render(commandQueue: commandQueue, pipelineState: pipelineState, drawable: drawable, parentModelViewMatrix: worldModelMatrix, projectionMatrix: projectionMatrix ,clearColor: nil)
+//    } else {
+//        objectToDraw2.render(commandQueue: commandQueue, pipelineState: pipelineState, drawable: drawable, parentModelViewMatrix: worldModelMatrix, projectionMatrix: projectionMatrix ,clearColor: nil)
+//    }
+//    self.i += 1
   }
   
   // 1

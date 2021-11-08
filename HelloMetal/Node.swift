@@ -36,6 +36,7 @@ class Node {
     
     // 3
     self.name = name
+    print("name: " + name)
     self.device = device
     vertexCount = vertices.count
   }
@@ -80,7 +81,7 @@ class Node {
     let matrix = Matrix4()
     matrix.translate(positionX, y: positionY, z: positionZ)
     matrix.rotateAroundX(rotationX, y: rotationY, z: rotationZ)
-    matrix.scale(scale, y: scale, z: scale)
+    matrix.scale(scale, y: scale, z: scale*2)
     return matrix
   }
   

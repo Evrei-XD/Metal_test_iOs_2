@@ -38,8 +38,10 @@ class ViewController: UIViewController {
     var lastFrameTimestamp: CFTimeInterval = 0.0
 
     let recognizer = UILongPressGestureRecognizer()
-    var coordX: Int = 0
-    var coordY: Int = 0
+    var coordX: Float = 0
+    var coordY: Float = 0
+    var lastCoordX: Float = 0
+    var lastCoordY: Float = 0
             
       
     override func viewDidLoad() {
@@ -113,7 +115,7 @@ class ViewController: UIViewController {
     func gameloop(timeSinceLastUpdate: CFTimeInterval) {
     
     // 4
-        objectToDraw.updateWithDelta(delta: timeSinceLastUpdate, coordX: self.coordX, coordY: self.coordY)
+        objectToDraw.updateWithDelta(delta: timeSinceLastUpdate, coordX: self.coordX, coordY: self.coordY, lastCoordX: self.lastCoordX, lastCoordY: self.lastCoordY)
     
     // 5
     autoreleasepool {
@@ -125,9 +127,21 @@ class ViewController: UIViewController {
     @objc func rotateObject(recognaizer: UIPanGestureRecognizer) {
         if recognaizer.state == .changed {
             let translation = recognaizer.translation(in: self.view)
-            coordX = Int(translation.x)
-            coordY = Int(translation.y)
-            print("rotateObject x: ", Float(translation.x), "  rotateObject y: ", Float(translation.y))
+            coordX = Float(translation.x)
+            coordY = Float(translation.y)
+            print("rotateObject x: ", Float(translation.x))
+        }
+        
+//        if recognaizer.state == .cancelled {
+//            print("rotateObject end x: ", lastCoordX)
+//            lastCoordX = coordX
+//            lastCoordY = coordY
+//        }
+        
+        if recognaizer.state == .ended {
+            lastCoordX = coordX + lastCoordX
+            lastCoordY = coordY + lastCoordY
+            print("rotateObject end x: ", lastCoordX)
         }
     }
 }

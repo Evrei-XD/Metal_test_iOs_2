@@ -13,8 +13,10 @@ class Node {
     var vertexCount: Int
     var vertexBuffer: MTLBuffer
     var time:CFTimeInterval = 0.0
-    var coordinateX: Int = 0
-    var coordinateY: Int = 0
+    var coordinateX: Float = 0
+    var lastCoordinateX: Float = 0
+    var coordinateY: Float = 0
+    var lastCoordinateY: Float = 0
 
     var positionX: Float = 0.0
     var positionY: Float = 0.0
@@ -87,10 +89,16 @@ class Node {
     return matrix
   }
   
-    func updateWithDelta(delta: CFTimeInterval, coordX: Int, coordY: Int){
+    func updateWithDelta(delta: CFTimeInterval, coordX: Float, coordY: Float, lastCoordX: Float, lastCoordY: Float){
         time += delta
-        coordinateX += coordX
-        coordinateY += coordY
+        if (lastCoordinateX != coordX) {
+            coordinateX = lastCoordX + coordX
+            lastCoordinateX = coordX
+        }
+        if (lastCoordinateY != coordY) {
+            coordinateY = lastCoordY + coordY
+            lastCoordinateY = coordY
+        }
   }
   
 }

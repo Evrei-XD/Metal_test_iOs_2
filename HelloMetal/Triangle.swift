@@ -35,9 +35,9 @@ class Triangle: Node {
     super.init(name: "Triangle", vertices: verticesArray, device: device)
   }
   
-    override func updateWithDelta(delta: CFTimeInterval, coordX: Int, coordY: Int) {
+    override func updateWithDelta(delta: CFTimeInterval, coordX: Float, coordY: Float, lastCoordX: Float, lastCoordY: Float) {
       
-      super.updateWithDelta(delta: delta, coordX: coordX, coordY: coordY)
+      super.updateWithDelta(delta: delta, coordX: coordX, coordY: coordY, lastCoordX: lastCoordX, lastCoordY: lastCoordY)
       
       let secsPerMove: Float = 12.0
       rotationY = sinf( Float(time) * 4.0 * Float(Double.pi) / secsPerMove)

@@ -91,7 +91,7 @@ class ViewController: UIViewController {
     guard let drawable = metalLayer?.nextDrawable() else { return }
     let worldModelMatrix = Matrix4()
     worldModelMatrix.translate(0.0, y: 0.0, z: -7.0)
-    worldModelMatrix.rotateAroundX(Matrix4.degrees(toRad: 25), y: 0.0, z: 0.0)
+    worldModelMatrix.rotateAroundX(Matrix4.degrees(toRad: 0), y: 0.0, z: 0.0)
      
     objectToDraw.render(commandQueue: commandQueue, pipelineState: pipelineState, drawable: drawable, parentModelViewMatrix: worldModelMatrix, projectionMatrix: projectionMatrix ,clearColor: nil)
   }
@@ -129,7 +129,7 @@ class ViewController: UIViewController {
             let translation = recognaizer.translation(in: self.view)
             coordX = Float(translation.x)
             coordY = Float(translation.y)
-            print("rotateObject x: ", Float(translation.x))
+//            print("rotateObject x: ", Float(translation.x))
         }
         
 //        if recognaizer.state == .cancelled {
@@ -141,7 +141,13 @@ class ViewController: UIViewController {
         if recognaizer.state == .ended {
             lastCoordX = coordX + lastCoordX
             lastCoordY = coordY + lastCoordY
-            print("rotateObject end x: ", lastCoordX)
+            if (lastCoordY > 360) {
+                lastCoordY = 360
+            }
+            if (lastCoordY < -360) {
+                lastCoordY = -360
+            }
+//            print("rotateObject end x: ", lastCoordX)
         }
     }
 }

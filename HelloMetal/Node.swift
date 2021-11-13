@@ -95,9 +95,18 @@ class Node {
             coordinateX = lastCoordX + coordX
             lastCoordinateX = coordX
         }
+        
+        
+        
         if (lastCoordinateY != coordY) {
             coordinateY = lastCoordY + coordY
             lastCoordinateY = coordY
+        }
+        if (coordinateY > 360) {
+            coordinateY = 360
+        }
+        if (coordinateY < -360) {
+            coordinateY = -360
         }
   }
   

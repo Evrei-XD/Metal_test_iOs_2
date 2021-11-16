@@ -54,28 +54,12 @@ class Cube: Node {
     override func updateWithDelta(delta: CFTimeInterval, coordX: Float, coordY: Float, lastCoordX: Float, lastCoordY: Float) {
     
     super.updateWithDelta(delta: delta, coordX: coordX, coordY: coordY, lastCoordX: lastCoordX, lastCoordY: lastCoordY)
-    
-//    print ("Cube x: ", coordinateX)
+
     let secsPerMoveX: Float = 100.0
     let secsPerMoveY: Float = 360.0
-//    print ("rotationX : ", sinf( Float(time) * 2.0 * Float(Double.pi) / secsPerMove))
-//    print ("rotationY : ", sinf( Float(time) * 4.0 * Float(Double.pi) / secsPerMove))
-//    print ("rotationZ : ", Float(time) * 20.0 * Float(Double.pi) / secsPerMove)
-        
-//    if (coordinateY / secsPerMoveY > 1) {
-//        rotationX = 1
-//    } else {
-//        if (coordinateY / secsPerMoveY < -1) {
-//            rotationX = -1
-//        } else {
-            
-//        }
-//    }
         
     rotationX = coordinateY / secsPerMoveY
     rotationY = coordinateX / secsPerMoveX
-    print ("coordinateX: ", coordinateY)
-//    print ("coordinateY: ", rotationY)
-//    rotationZ = Float(time) * 20.0 * Float(Double.pi) / secsPerMove
+//    print ("coordinateX: ", coordinateY)
   }
 }

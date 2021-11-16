@@ -40,7 +40,7 @@ class Node {
     
     // 3
     self.name = name
-    print("name: " + name)
+//    print("name: " + name)
     self.device = device
     vertexCount = vertices.count
   }
